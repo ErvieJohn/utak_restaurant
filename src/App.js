@@ -6,14 +6,18 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import '@fontsource/roboto';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-      </Routes>
-    </Router>
+    <div className='App'>
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+        </Routes>
+      </Router>
+    </div>
+    
   );
 }
 

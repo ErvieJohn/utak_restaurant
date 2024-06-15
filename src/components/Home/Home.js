@@ -4,6 +4,7 @@ import { getDatabase, ref, get } from 'firebase/database';
 import './Home.css';
 import ShowItem from '../ShowItem/ShowItem';
 import AddItem from '../AddItem/AddItem';
+import EditItem from '../EditItem/EditItem';
 
 function Home() {
   const [items,setItems] = useState(null);
@@ -28,15 +29,49 @@ function Home() {
       }
   }  
 
+  // for modal
+  const [isAddVisible, setIsAddVisible] = useState(false);
+  const [isEditVisible, setIsEditVisible] = useState(false);
+  const [editID, setEditID] = useState(null);
+
+  const openAddModal = () =>{
+    setIsAddVisible(true);
+  }
+
+  const closeAddModal = () =>{
+    setIsAddVisible(false);
+  }
+
+  const openEditModal = (itemID) =>{
+    setIsEditVisible(true);
+    setEditID(itemID);
+  }
+
+  const closeEditModal = () =>{
+    setIsEditVisible(false);
+    setEditID(null);
+  }
+
+  if(isAddVisible || isEditVisible) {
+    document.body.classList.add('active-modal')
+  } else {
+    document.body.classList.remove('active-modal')
+  }
+
   useEffect(()=>{
       fetchItemData();
   }, []);
 
   return (
-    <div>
-      Home
-      <AddItem fetchNewItem={fetchItemData}/>
-      <ShowItem data={items} fetchNewItem={fetchItemData}/>
+    <div className='App-header'>
+      Simple UTAK Test - Restaurant Sales Tracker
+
+      <button onClick={openAddModal}>Add</button>
+      
+      <ShowItem data={items} fetchNewItem={fetchItemData} openEditModal={openEditModal}/>
+
+      {isAddVisible && <AddItem fetchNewItem={fetchItemData} closeAddModal={closeAddModal}/>}
+      {isEditVisible && <EditItem fetchNewItem={fetchItemData} closeEditModal={closeEditModal} editID={editID}/>}
     </div>
   )
 }

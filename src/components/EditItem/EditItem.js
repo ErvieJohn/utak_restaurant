@@ -1,11 +1,13 @@
-import { getDatabase, push, ref, set } from 'firebase/database';
-import React, { useState } from 'react';
+import { get, getDatabase, ref, set } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
 import app from '../../config';
 import { defaultItemValues } from '../../defaultItems';
 import '../Modal.css';
 
-function AddItem({fetchNewItem, closeAddModal}) {
+function EditItem({fetchNewItem, closeEditModal, editID}) {
     const [inputItem, setInputItem] = useState(defaultItemValues);
+    const [oldItemData, setOldItemData] = useState(defaultItemValues);
+    const itemID = editID;
 
     const handleInputChange = (key, event) => {
         setInputItem({
@@ -14,19 +16,18 @@ function AddItem({fetchNewItem, closeAddModal}) {
         });
     };
 
-    const handleAddItem = () => {
+    const handleEditItem = () => {
         // console.log("Input Item: ", inputItem);
-        addItem();
+        editItem();
     }
 
-    const addItem = async () => {
+    const editItem = async () => {
         const db = getDatabase(app);
-        const newItemRef = push(ref(db, 'items'));
+        const newItemRef = ref(db, 'items/' + itemID);
 
         // Add created date and updated date to item
         const date = new Date();
         let item = {...inputItem};
-        item["date_created"] = date.toString();
         item["date_updated"] = date.toString();
 
         // String to integer
@@ -39,7 +40,7 @@ function AddItem({fetchNewItem, closeAddModal}) {
         set(newItemRef, item).then(()=>{
             setInputItem(defaultItemValues);
             fetchNewItem();
-            closeAddModal();
+            closeEditModal();
             // alert("Item Added");
         }).catch((error)=>{
            console.log(`Error: ${error}`);
@@ -47,25 +48,49 @@ function AddItem({fetchNewItem, closeAddModal}) {
     }
 
     const checkFieldFill = () => {
-        if(Object.values(inputItem).includes(null) || Object.values(inputItem).includes('')){
+        if(Object.values(inputItem).includes(null) || Object.values(inputItem).includes('') || JSON.stringify(inputItem) === JSON.stringify(oldItemData)){
             return true
         } else {
             return false
         }
     }
 
+    useEffect(()=>{
+        const fetchEditItemData = async () => {
+            const db = getDatabase(app);
+            const dbRef = ref(db, 'items/' + itemID);
+            const snapshot = await get(dbRef);
+      
+            if(snapshot.exists()){
+                var temp = snapshot.val();
+                // String to integer
+                temp["price"] = temp["price"].toString();
+                temp["cost"] = temp["cost"].toString();
+                temp["stock_no"] = temp["stock_no"].toString();
+
+                const data = temp;
+                setInputItem(data);
+                setOldItemData(data);
+            } else {
+                setInputItem(defaultItemValues);
+            }
+        };
+
+        fetchEditItemData();
+    }, [itemID]);
+
     return (
         <div className="modal">
             <div 
-                // onClick={closeAddModal} 
+                // onClick={closeEditModal} 
                 className="overlay">
             </div>
             <div className="modal-content">
-                <button className="close-modal" onClick={closeAddModal}>
+                <button className="close-modal" onClick={closeEditModal}>
                     X
                 </button>
 
-                <h5 className='modal-text-header'>Add Item</h5>
+                <h5 className='modal-text-header'>Edit Item</h5>
                 <br/>
                 <hr/>
 
@@ -147,16 +172,16 @@ function AddItem({fetchNewItem, closeAddModal}) {
                 <br/>
                 
                 <div>
-                    <button className='btn' onClick={closeAddModal} style={{marginRight: "20px", backgroundColor: "crimson", color: "#fff"}}>
+                    <button className='btn' onClick={closeEditModal} style={{marginRight: "20px", backgroundColor: "crimson", color: "#fff"}}>
                         Cancel
                     </button>
-                    <button className='btn' onClick={handleAddItem} 
+                    <button className='btn' onClick={handleEditItem} 
                         disabled={checkFieldFill()}
                         style={{color: "#fff", backgroundColor: checkFieldFill() ? "#333333" : "cornflowerblue", 
                             cursor: checkFieldFill() ? "auto" : "pointer"
                         }}
                     >
-                        Add
+                        Edit
                     </button>
                 </div>
 
@@ -165,4 +190,4 @@ function AddItem({fetchNewItem, closeAddModal}) {
     )
 }
 
-export default AddItem
+export default EditItem
