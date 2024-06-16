@@ -7,6 +7,9 @@ import AddItem from '../AddItem/AddItem';
 import EditItem from '../EditItem/EditItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import DeleteItem from '../DeleteItem/DeleteItem';
 
 function Home() {
   const [items,setItems] = useState(null);
@@ -35,6 +38,9 @@ function Home() {
   const [isAddVisible, setIsAddVisible] = useState(false);
   const [isEditVisible, setIsEditVisible] = useState(false);
   const [editID, setEditID] = useState(null);
+  const [isDeleteVisible, setIsDeleteVisible] = useState(false);
+  const [deleteID, setDeleteID] = useState(null);
+  const [deleteName, setDeleteName] = useState(null);
 
   const openAddModal = () =>{
     setIsAddVisible(true);
@@ -54,7 +60,19 @@ function Home() {
     setEditID(null);
   }
 
-  if(isAddVisible || isEditVisible) {
+  const openDeleteModal = (deleteID, deleteName) =>{
+    setIsDeleteVisible(true);
+    setDeleteID(deleteID);
+    setDeleteName(deleteName);
+  }
+
+  const closeDeleteModal = () =>{
+    setIsDeleteVisible(false);
+    setDeleteID(null);
+    setDeleteName(null);
+  }
+
+  if(isAddVisible || isEditVisible || isDeleteVisible) {
     document.body.classList.add('active-modal')
   } else {
     document.body.classList.remove('active-modal')
@@ -82,10 +100,12 @@ function Home() {
 
       </div>
       
-      <ShowItem data={items} fetchNewItem={fetchItemData} openEditModal={openEditModal}/>
+      <ShowItem data={items} openEditModal={openEditModal} openDeleteModal={openDeleteModal}/>
 
       {isAddVisible && <AddItem fetchNewItem={fetchItemData} closeAddModal={closeAddModal}/>}
       {isEditVisible && <EditItem fetchNewItem={fetchItemData} closeEditModal={closeEditModal} editID={editID}/>}
+      {isDeleteVisible && <DeleteItem fetchNewItem={fetchItemData} closeDeleteModal={closeDeleteModal} deleteID={deleteID} deleteName={deleteName}/>}
+      <ToastContainer style={{fontSize: "16px"}}/>
     </div>
   )
 }

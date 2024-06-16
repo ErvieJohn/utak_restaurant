@@ -5,6 +5,7 @@ import { defaultItemValues } from '../../defaultItems';
 import '../Modal.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCancel, faSave } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 function EditItem({fetchNewItem, closeEditModal, editID}) {
     const [inputItem, setInputItem] = useState(defaultItemValues);
@@ -43,6 +44,7 @@ function EditItem({fetchNewItem, closeEditModal, editID}) {
             setInputItem(defaultItemValues);
             fetchNewItem();
             closeEditModal();
+            toast(`${item["name"]} has been successfully updated!`);
             // alert("Item Added");
         }).catch((error)=>{
            console.log(`Error: ${error}`);

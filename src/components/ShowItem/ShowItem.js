@@ -1,6 +1,4 @@
-import { getDatabase, ref, remove } from 'firebase/database';
 import React from 'react';
-import app from '../../config';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -55,15 +53,8 @@ const columns = [
 ];
 
 
-function ShowItem({data, fetchNewItem, openEditModal}) {
+function ShowItem({data, openEditModal, openDeleteModal}) {
     const items = data;
-
-    const deleteItem = async (itemID) => {
-        const db = getDatabase(app);
-        const dbRef = ref(db, 'items/' + itemID);
-        await remove(dbRef);
-        fetchNewItem();
-    }
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -120,7 +111,7 @@ function ShowItem({data, fetchNewItem, openEditModal}) {
                                                         <FontAwesomeIcon icon={faEdit}/>
                                                         {"  "} Edit
                                                     </button>
-                                                    <button className='btn' style={{backgroundColor: "red", color: "white"}} onClick={()=>deleteItem(row.id)}>
+                                                    <button className='btn' style={{backgroundColor: "red", color: "white"}} onClick={()=>openDeleteModal(row.id, row.name)}>
                                                         <FontAwesomeIcon icon={faTrashCan}/>
                                                         {"  "} Delete
                                                     </button>

@@ -5,6 +5,7 @@ import { defaultItemValues } from '../../defaultItems';
 import '../Modal.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd, faCancel } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 function AddItem({fetchNewItem, closeAddModal}) {
     const [inputItem, setInputItem] = useState(defaultItemValues);
@@ -42,6 +43,7 @@ function AddItem({fetchNewItem, closeAddModal}) {
             setInputItem(defaultItemValues);
             fetchNewItem();
             closeAddModal();
+            toast(`${item["name"]} has been successfully added!`);
             // alert("Item Added");
         }).catch((error)=>{
            console.log(`Error: ${error}`);
