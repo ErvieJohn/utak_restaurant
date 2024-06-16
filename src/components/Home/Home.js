@@ -106,6 +106,13 @@ function Home() {
       {isEditVisible && <EditItem fetchNewItem={fetchItemData} closeEditModal={closeEditModal} editID={editID}/>}
       {isDeleteVisible && <DeleteItem fetchNewItem={fetchItemData} closeDeleteModal={closeDeleteModal} deleteID={deleteID} deleteName={deleteName}/>}
       <ToastContainer style={{fontSize: "16px"}}/>
+      <br/>
+      <div style={{color: "#fff", fontSize: "1.2rem"}}>
+        <b>
+          Source Code: {" "}
+        </b>
+        <a style={{color: "#fff"}} href='https://github.com/ErvieJohn/utak_restaurant' target='_blank' rel="noreferrer">https://github.com/ErvieJohn/utak_restaurant</a>
+      </div>
     </div>
   )
 }
