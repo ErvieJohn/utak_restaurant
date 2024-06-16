@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import app from '../../config';
 import { defaultItemValues } from '../../defaultItems';
 import '../Modal.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCancel, faSave } from '@fortawesome/free-solid-svg-icons';
 
 function EditItem({fetchNewItem, closeEditModal, editID}) {
     const [inputItem, setInputItem] = useState(defaultItemValues);
@@ -173,7 +175,8 @@ function EditItem({fetchNewItem, closeEditModal, editID}) {
                 
                 <div>
                     <button className='btn' onClick={closeEditModal} style={{marginRight: "20px", backgroundColor: "crimson", color: "#fff"}}>
-                        Cancel
+                        <FontAwesomeIcon icon={faCancel}/>
+                        {"  "} Cancel
                     </button>
                     <button className='btn' onClick={handleEditItem} 
                         disabled={checkFieldFill()}
@@ -181,7 +184,8 @@ function EditItem({fetchNewItem, closeEditModal, editID}) {
                             cursor: checkFieldFill() ? "auto" : "pointer"
                         }}
                     >
-                        Edit
+                        <FontAwesomeIcon icon={faSave}/>
+                        {"  "} Save
                     </button>
                 </div>
 

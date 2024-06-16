@@ -9,6 +9,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const columns = [
     { id: 'category', label: 'Category', minWidth: 100 },
@@ -78,7 +80,7 @@ function ShowItem({data, fetchNewItem, openEditModal}) {
     return (
         <div>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
+                <TableContainer sx={{ maxHeight: 440, minHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -114,9 +116,13 @@ function ShowItem({data, fetchNewItem, openEditModal}) {
                                         } else {
                                             return (
                                                 <TableCell key={column.id} align={column.align}>
-                                                    <button onClick={()=>openEditModal(row.id)}>Edit</button>
-                                                    <button onClick={()=>deleteItem(row.id)}>
-                                                        Delete
+                                                    <button className='btn' style={{backgroundColor: "blue", color: "white", marginRight: "10px"}} onClick={()=>openEditModal(row.id)}>
+                                                        <FontAwesomeIcon icon={faEdit}/>
+                                                        {"  "} Edit
+                                                    </button>
+                                                    <button className='btn' style={{backgroundColor: "red", color: "white"}} onClick={()=>deleteItem(row.id)}>
+                                                        <FontAwesomeIcon icon={faTrashCan}/>
+                                                        {"  "} Delete
                                                     </button>
                                                 </TableCell>
                                             );
@@ -125,7 +131,7 @@ function ShowItem({data, fetchNewItem, openEditModal}) {
                                 </TableRow>
                                 );
                             })
-                        ) : (<label style={{textAlign: "center", color: "#676666", fontSize: "1.2rem" }}>No records found.</label>)}
+                        ) : (<TableRow><TableCell align='center' style={{textAlign: "center", color: "#676666", fontSize: "1.2rem" }}>No records found.</TableCell></TableRow>)}
                     </TableBody>
                     </Table>
                 </TableContainer>

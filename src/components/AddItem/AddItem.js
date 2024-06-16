@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import app from '../../config';
 import { defaultItemValues } from '../../defaultItems';
 import '../Modal.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAdd, faCancel } from '@fortawesome/free-solid-svg-icons';
 
 function AddItem({fetchNewItem, closeAddModal}) {
     const [inputItem, setInputItem] = useState(defaultItemValues);
@@ -148,7 +150,8 @@ function AddItem({fetchNewItem, closeAddModal}) {
                 
                 <div>
                     <button className='btn' onClick={closeAddModal} style={{marginRight: "20px", backgroundColor: "crimson", color: "#fff"}}>
-                        Cancel
+                        <FontAwesomeIcon icon={faCancel}/>
+                        {"  "} Cancel
                     </button>
                     <button className='btn' onClick={handleAddItem} 
                         disabled={checkFieldFill()}
@@ -156,7 +159,8 @@ function AddItem({fetchNewItem, closeAddModal}) {
                             cursor: checkFieldFill() ? "auto" : "pointer"
                         }}
                     >
-                        Add
+                        <FontAwesomeIcon icon={faAdd}/>
+                        {"  "} Add
                     </button>
                 </div>
 

@@ -5,6 +5,8 @@ import './Home.css';
 import ShowItem from '../ShowItem/ShowItem';
 import AddItem from '../AddItem/AddItem';
 import EditItem from '../EditItem/EditItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
 
 function Home() {
   const [items,setItems] = useState(null);
@@ -64,9 +66,21 @@ function Home() {
 
   return (
     <div className='App-header'>
-      Simple UTAK Test - Restaurant Sales Tracker
+      {/* Simple UTAK Test -  */}
+      
 
-      <button onClick={openAddModal}>Add</button>
+      <div style={{display: "flex",
+                  justifyContent: "space-between",
+                  width: "70%",}}>
+        <div>
+          Restaurant Sales Tracker
+        </div>
+        <button className='btn' style={{backgroundColor: "green", color: "white"}} onClick={openAddModal}>
+          <FontAwesomeIcon icon={faAdd}/>
+          {"  "} ADD
+        </button>
+
+      </div>
       
       <ShowItem data={items} fetchNewItem={fetchItemData} openEditModal={openEditModal}/>
 

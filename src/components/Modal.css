@@ -50,7 +50,7 @@
     background-color: transparent;
     padding: 6px 30px 4px 10px;
     font-size: 14px;
-    border: 1px solid black;
+    border: 1px solid grey;
     border-radius: 5px;
     /* cursor: pointer; */
     height: 30px;
@@ -59,6 +59,7 @@
 
 .custom-select select:focus {
     outline: none;
+    border: 1px solid black;
 }
 
 .custom-select::after {
